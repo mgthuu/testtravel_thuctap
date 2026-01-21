@@ -1,18 +1,14 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
-@pytest.fixture(scope="class")
+@pytest.fixture
 def driver():
-    service = Service(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
-    # Thêm các tùy chọn để chạy ổn định hơn trên web demo
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    
+    options = Options()
+    options.add_argument("--start-maximized")
+    service = Service()
     driver = webdriver.Chrome(service=service, options=options)
-    driver.maximize_window()
+    driver.get("https://www.phptravels.net/blogs")
     yield driver
     driver.quit()
